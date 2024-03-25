@@ -174,8 +174,10 @@ function isDateInPeriod(date, period) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  return new Date(date).toLocaleString([], {
+    timeZone: 'UTC',
+  });
 }
 
 /**
@@ -190,8 +192,19 @@ function formatDate(/* date */) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const time = new Date(year, month, 0);
+  const days = time.getDate();
+  let result = 0;
+
+  for (let i = 1; i <= days; i += 1) {
+    time.setDate(i);
+    if (time.getDay() === 6 || time.getDay() === 0) {
+      result += 1;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -207,8 +220,10 @@ function getCountWeekendsInMonth(/* month, year */) {
  * Date(2024, 0, 31) => 5
  * Date(2024, 1, 23) => 8
  */
-function getWeekNumberByDate(/* date */) {
-  throw new Error('Not implemented');
+function getWeekNumberByDate(date) {
+  const time = new Date(date);
+  const yearStart = new Date(time.getFullYear(), 0, 1);
+  return Math.ceil(((time - yearStart) / 86400000 + 1) / 7);
 }
 
 /**
@@ -237,8 +252,9 @@ function getNextFridayThe13th(/* date */) {
  * Date(2024, 5, 1) => 2
  * Date(2024, 10, 10) => 4
  */
-function getQuarter(/* date */) {
-  throw new Error('Not implemented');
+function getQuarter(date) {
+  const time = new Date(date);
+  return Math.floor((time.getMonth() + 2) / 3) || 1;
 }
 
 /**
