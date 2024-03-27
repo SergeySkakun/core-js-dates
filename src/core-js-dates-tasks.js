@@ -222,8 +222,11 @@ function getCountWeekendsInMonth(month, year) {
  */
 function getWeekNumberByDate(date) {
   const time = new Date(date);
-  const yearStart = new Date(time.getFullYear(), 0, 1);
-  return Math.ceil(((time - yearStart) / 86400000 + 1) / 7);
+  const startYear = new Date(time.getFullYear(), 0, 1);
+  const dayBeforeYearStart = (startYear.getDay() || 7) - 1;
+  const dayGoneCounter = (time - startYear) / 86400000 + 1;
+
+  return Math.ceil((dayGoneCounter + dayBeforeYearStart) / 7);
 }
 
 /**
